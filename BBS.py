@@ -1,13 +1,5 @@
-import math
-from seed_generator import generate_seed  # استدعاء من ملفك المرفوع
+from seed_generator import generate_seed
 
-# إنشاء N من p و q
-def generate_modulus(p, q):
-    if p % 4 != 3 or q % 4 != 3:
-        raise ValueError("p and q must be ≡ 3 mod 4")
-    return p * q
-
-# خوارزمية BBS
 def bbs(seed, n, bit_count):
     x = seed
     bits = []
@@ -16,14 +8,16 @@ def bbs(seed, n, bit_count):
         bits.append(x % 2)
     return bits
 
-# تجربة تشغيل
 if __name__ == "__main__":
-    p = 11
-    q = 19
-    n = generate_modulus(p, q)
+    p = 499
+    q = 547
+    n = p * q
 
-    seed = generate_seed(n)  # توليد seed من الكود اللي رفعته
-    print("Seed:", seed)
+    seed_hash = generate_seed()
+    seed_int = int(seed_hash, 16)
 
-    bits = bbs(seed, n, 20)
-    print("Generated bits:", ''.join(map(str, bits)))
+    bits = bbs(seed_int, n, 32)
+
+    print("Seed (hex):", seed_hash)
+    print("Seed (int):", seed_int)
+    print("Random bits:", ''.join(map(str, bits)))
